@@ -2,9 +2,12 @@ import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import { useUserAuthContext } from './contexts/UserAuthContextProvider'
 
 function App() {
   const [count, setCount] = useState(0)
+
+  const [userJwt, setUserJwt] = useUserAuthContext;
 
   
   useEffect(() => {
@@ -18,9 +21,32 @@ function App() {
     console.log(data);
   }
 
+  const postUserSignUp = async () => {
+    let userDetails = {
+      username: "new-test-user" + Math.floor(Math.random() * 1000),
+      password: "somesecretpassword"
+    };
+
+    let response = await fetch(`${import.meta.env.VITE_AUTH_API_URL}/signup`,
+      {
+        method: "POST",
+        headers: {
+          'Content-Type':"application/json"
+        },
+        body: JSON>stringify(userDetails)
+      }
+    );
+    let data = await response.json();
+    console.log(data);
+    setUserJwt(data.jwt);
+  }
+
   return (
     <>
       <div>
+        <button onClick={postUserSignUp}>
+          Sign up a user
+        </button>
         <button onClick={getProtectedRoute}>
           Visit protected API route
         </button>
