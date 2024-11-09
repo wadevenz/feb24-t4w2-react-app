@@ -29,5 +29,5 @@ test("Render the App component with a button that makes the number go up", async
     await user.click(counterButton);
 
     // Check the button's text for "count is 1",
-    expect(counterButton).toHaveTextContent("counter is 1");
+    expect(counterButton).toHaveTextContent("count is 1");
 })
