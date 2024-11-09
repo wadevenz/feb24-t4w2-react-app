@@ -7,7 +7,7 @@ import { useUserAuthContext } from './contexts/UserAuthContextProvider'
 function App() {
   const [count, setCount] = useState(0)
 
-  const [userJwt, setUserJwt] = useUserAuthContext;
+  const [userJwt, setUserJwt] = useUserAuthContext();
 
   
   useEffect(() => {
@@ -33,7 +33,7 @@ function App() {
         headers: {
           'Content-Type':"application/json"
         },
-        body: JSON>stringify(userDetails)
+        body: JSON.stringify(userDetails)
       }
     );
     let data = await response.json();
@@ -41,9 +41,14 @@ function App() {
     setUserJwt(data.jwt);
   }
 
+  useEffect(() => {
+    console.log("JWT changed in state");
+  }, [userJwt]);
+  
   return (
     <>
       <div>
+        <h1 data-testid="jwt-header">{userJwt}</h1>
         <button onClick={postUserSignUp}>
           Sign up a user
         </button>
